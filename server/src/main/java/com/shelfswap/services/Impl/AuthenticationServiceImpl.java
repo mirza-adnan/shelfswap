@@ -1,6 +1,6 @@
 package com.shelfswap.services.Impl;
 
-import com.shelfswap.constants.AuthConstants;
+import com.shelfswap.utils.Constants;
 import com.shelfswap.dtos.AuthResponse;
 import com.shelfswap.dtos.RegistrationRequest;
 import com.shelfswap.entities.User;
@@ -37,11 +37,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${jwt.secret}")
-    private String secretKey;
-
-    private final Long jwtExpiryMs = 24L * 60 * 60 * 1000;
-
     @Override
     public User authenticate(String email, String password) {
         authenticationManager.authenticate(
@@ -58,7 +53,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .setClaims(claims)
                 .setSubject(value)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiryMs))
+                .setExpiration(new Date(System.currentTimeMillis() + Constants.TOKEN_EXPIRATION_SECONDS))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact(); // <- gets the string version of the jwt object
     }
@@ -98,7 +93,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .token(token)
-                .expiresIn(AuthConstants.TOKEN_EXPIRATION_SECONDS)
+                .expiresIn(Constants.TOKEN_EXPIRATION_SECONDS)
                 .build();
     }
 
@@ -113,7 +108,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     private Key getSigningKey() {
-        byte[] keyBytes = secretKey.getBytes();
+        byte[] keyBytes = Constants.secretKey.getBytes();
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
