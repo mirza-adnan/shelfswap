@@ -1,7 +1,11 @@
 package com.shelfswap.services.Impl;
 
+import com.shelfswap.constants.AuthConstants;
+import com.shelfswap.dtos.AuthResponse;
 import com.shelfswap.dtos.RegistrationRequest;
 import com.shelfswap.entities.User;
+import com.shelfswap.exceptions.EmailAlreadyExistsException;
+import com.shelfswap.exceptions.UserNotFoundException;
 import com.shelfswap.repositories.UserRepository;
 import com.shelfswap.services.AuthenticationService;
 import io.jsonwebtoken.Claims;
@@ -39,13 +43,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final Long jwtExpiryMs = 24L * 60 * 60 * 1000;
 
     @Override
-    public UserDetails authenticate(String email, String password) {
+    public User authenticate(String email, String password) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
         );
-        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-
-        return userDetails;
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
     }
 
     @Override
@@ -70,7 +73,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Transactional
     public User register(RegistrationRequest request) throws IllegalStateException {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalStateException("Email already registered");
+            throw new EmailAlreadyExistsException("Email already registered: " + request.getEmail());
         }
 
         User user = User.builder()
@@ -84,6 +87,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         log.info("New user registered with email: {}", savedUser.getEmail());
 
         return savedUser;
+    }
+
+    @Override
+    public AuthResponse buildAuthResponse(User user) {
+        String token = generateToken(user.getEmail());
+        return AuthResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .token(token)
+                .expiresIn(AuthConstants.TOKEN_EXPIRATION_SECONDS)
+                .build();
     }
 
     private String extractUsername(String token) {
