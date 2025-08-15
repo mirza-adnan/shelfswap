@@ -6,6 +6,7 @@ import com.shelfswap.dtos.RegistrationRequest;
 import com.shelfswap.entities.User;
 import com.shelfswap.repositories.UserRepository;
 import com.shelfswap.services.AuthenticationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class AuthenticationController {
     private final UserRepository userRepository;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         UserDetails userDetails = authenticationService.authenticate(
                 loginRequest.getEmail(),
                 loginRequest.getPassword()
@@ -57,7 +58,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegistrationRequest request) {
+    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegistrationRequest request) {
         User user = authenticationService.register(request);
         String tokenValue = authenticationService.generateToken(user.getEmail());
         AuthResponse response = AuthResponse.builder()
