@@ -1,5 +1,6 @@
 package com.shelfswap.security;
 
+import com.shelfswap.entities.User;
 import com.shelfswap.services.AuthenticationService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -31,14 +32,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails,
-                        null, userDetails.getAuthorities()
+                        null,
+                        userDetails.getAuthorities()
                 );
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                if (userDetails instanceof AppUserDetails) {
-                    request.setAttribute("userId", ((AppUserDetails) userDetails).getId());
-                }
+                request.setAttribute("email", userDetails.getUsername());
             }
         } catch (Exception ex) {
             log.warn("Received invalid auth token");

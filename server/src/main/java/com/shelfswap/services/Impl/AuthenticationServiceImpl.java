@@ -1,5 +1,6 @@
 package com.shelfswap.services.Impl;
 
+import com.shelfswap.services.UserService;
 import com.shelfswap.utils.Constants;
 import com.shelfswap.dtos.AuthResponse;
 import com.shelfswap.dtos.RegistrationRequest;
@@ -34,8 +35,12 @@ import java.util.Map;
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
+    private final UserService userService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Value("${jwt.secret}")
+    private String jwtSecret;
 
     @Override
     public User authenticate(String email, String password) {
@@ -53,15 +58,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .setClaims(claims)
                 .setSubject(value)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + Constants.TOKEN_EXPIRATION_SECONDS))
+                .setExpiration(new Date(System.currentTimeMillis() + (Constants.TOKEN_EXPIRATION_SECONDS * 1000)))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact(); // <- gets the string version of the jwt object
     }
 
     @Override
     public UserDetails validateToken(String token) {
-        String username = extractUsername(token);
-        return userDetailsService.loadUserByUsername(username);
+        String email = extractPayload(token);
+        return userDetailsService.loadUserByUsername(email);
     }
 
     @Override
@@ -97,18 +102,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
     }
 
-    private String extractUsername(String token) {
+    private String extractPayload(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
 
         return claims.getSubject();
     }
 
     private Key getSigningKey() {
-        byte[] keyBytes = Constants.secretKey.getBytes();
+        byte[] keyBytes = jwtSecret.getBytes();
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
