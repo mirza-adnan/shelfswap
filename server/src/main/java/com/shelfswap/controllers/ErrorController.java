@@ -2,6 +2,7 @@ package com.shelfswap.controllers;
 
 import com.shelfswap.dtos.ApiErrorResponse;
 import com.shelfswap.exceptions.EmailAlreadyExistsException;
+import com.shelfswap.exceptions.NotFoundException;
 import com.shelfswap.exceptions.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class ErrorController {
         log.error("Caught exception: ", ex);
         ApiErrorResponse error = ApiErrorResponse.builder().
                 status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .message("An unexpected error occurred")
+                .message(Boolean.parseBoolean(ex.getMessage()) ? ex.getMessage() : "An unexpected error occurred")
                 .build();
 
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -82,5 +83,15 @@ public class ErrorController {
                 .message(ex.getMessage())
                 .build();
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleNotFoundException(NotFoundException ex) {
+        ApiErrorResponse error = ApiErrorResponse.builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .message(ex.getMessage())
+                .build();
+
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 }
