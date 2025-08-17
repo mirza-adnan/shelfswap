@@ -25,9 +25,6 @@ public class BookAddRequest {
 
     private String coverKey;
 
-    @NotNull(message = "User ID is required")
-    private UUID userId;
-
     public void setId(String id) {
         this.id = extractOLKey(id); // automatically clean it
     }
