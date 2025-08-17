@@ -34,6 +34,6 @@ public class AuthenticationController {
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegistrationRequest request) {
         User user = authenticationService.register(request);
         AuthResponse response = authenticationService.buildAuthResponse(user);
-        return new ResponseEntity<AuthResponse>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

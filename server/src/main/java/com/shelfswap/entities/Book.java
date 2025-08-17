@@ -2,6 +2,7 @@ package com.shelfswap.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,10 +12,11 @@ import java.time.LocalDateTime;
 @Table(name = "books")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Data
 public class Book {
     @Id
-    private String isbn;
+    private String id;
 
     @Column(nullable = false)
     private String title;
