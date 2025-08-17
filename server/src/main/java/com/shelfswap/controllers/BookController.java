@@ -20,7 +20,12 @@ public class BookController {
     @PostMapping("/shelf")
     public ResponseEntity<Book> addToShelf(@Valid @RequestBody BookAddRequest request,
                                            @RequestAttribute String userEmail) {
-        System.out.println(request.getId());
         return new ResponseEntity<>(bookService.addToShelfOrWishlist(request, userEmail, true),HttpStatus.CREATED);
+    }
+
+    @PostMapping("/wishlist")
+    public ResponseEntity<Book> addToWishlist(@Valid @RequestBody BookAddRequest request,
+                                              @RequestAttribute String userEmail) {
+        return new ResponseEntity<>(bookService.addToShelfOrWishlist(request, userEmail, false), HttpStatus.CREATED);
     }
 }
