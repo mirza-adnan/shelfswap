@@ -5,7 +5,9 @@ import com.shelfswap.entities.Book;
 import com.shelfswap.entities.ShelfBook;
 import com.shelfswap.entities.User;
 import com.shelfswap.entities.WishlistBook;
+import com.shelfswap.exceptions.DuplicateExistsException;
 import com.shelfswap.exceptions.NotFoundException;
+import com.shelfswap.exceptions.MutuallyExclusiveException;
 import com.shelfswap.repositories.BookRepository;
 import com.shelfswap.repositories.ShelfBookRepository;
 import com.shelfswap.repositories.WishlistRepository;
@@ -14,6 +16,8 @@ import com.shelfswap.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -34,22 +38,25 @@ public class BookServiceImpl implements BookService {
             book = getBookById(request.getId());
         }
         User user = userService.getUserByEmail(userEmail);
-        if (toShelf) {
-            ShelfBook shelfBook = ShelfBook.builder()
-                    .user(user)
-                    .book(book)
-                    .build();
-            shelfBookRepository.save(shelfBook);
 
-            log.info("{} added to {}'s Shelf", book.getTitle(), userEmail);
-        } else {
-            WishlistBook wishlistBook = WishlistBook.builder()
-                    .user(user)
-                    .book(book)
-                    .build();
-            wishlistRepository.save(wishlistBook);
+        if (canBeAdded(user.getId(), book.getId(), toShelf)) {
+            if (toShelf) {
+                ShelfBook shelfBook = ShelfBook.builder()
+                        .user(user)
+                        .book(book)
+                        .build();
+                shelfBookRepository.save(shelfBook);
 
-            log.info("{} added to {}'s Wishlist", book.getTitle(), userEmail);
+                log.info("{} added to {}'s Shelf", book.getTitle(), userEmail);
+            } else {
+                WishlistBook wishlistBook = WishlistBook.builder()
+                        .user(user)
+                        .book(book)
+                        .build();
+                wishlistRepository.save(wishlistBook);
+
+                log.info("{} added to {}'s Wishlist", book.getTitle(), userEmail);
+            }
         }
 
         return book;
@@ -67,6 +74,25 @@ public class BookServiceImpl implements BookService {
 
     private Boolean isBookInDb(String id) {
         return bookRepository.existsById(id);
+    }
+
+    private Boolean canBeAdded(UUID userId, String bookId, Boolean shelf) {
+        if (shelf) {
+            if (wishlistRepository.existsByUserIdAndBookId(userId, bookId)) {
+                throw new MutuallyExclusiveException("Book is already in your wishlist. Cannot add to Shelf.");
+            }
+            if (shelfBookRepository.existsByUserIdAndBookId(userId, bookId)) {
+                throw new DuplicateExistsException("Book is already in your Shelf.");
+            }
+        } else {
+            if (shelfBookRepository.existsByUserIdAndBookId(userId, bookId)) {
+                throw new MutuallyExclusiveException("Book is already in your Shelf. Cannot add to Wishlist.");
+            }
+            if (wishlistRepository.existsByUserIdAndBookId(userId, bookId)) {
+                throw new DuplicateExistsException("Book is already in your Wishlist.");
+            }
+        }
+        return true;
     }
 
     public Book getBookById(String id) {

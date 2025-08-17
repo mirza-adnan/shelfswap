@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface WishlistRepository extends JpaRepository<WishlistBook, UUID> {
-
+    boolean existsByUserIdAndBookId(UUID userId, String bookId);
 }
