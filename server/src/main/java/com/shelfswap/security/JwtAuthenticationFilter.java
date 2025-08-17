@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                request.setAttribute("email", userDetails.getUsername());
+                request.setAttribute("userEmail", userDetails.getUsername());
             }
         } catch (Exception ex) {
             log.warn("Received invalid auth token");

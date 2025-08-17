@@ -19,13 +19,13 @@ public class BookController {
 
     @PostMapping("/shelf")
     public ResponseEntity<Book> addToShelf(@Valid @RequestBody BookAddRequest request,
-                                           @RequestAttribute String userEmail) {
+                                           @RequestAttribute("userEmail") String userEmail) {
         return new ResponseEntity<>(bookService.addToShelfOrWishlist(request, userEmail, true),HttpStatus.CREATED);
     }
 
     @PostMapping("/wishlist")
     public ResponseEntity<Book> addToWishlist(@Valid @RequestBody BookAddRequest request,
-                                              @RequestAttribute String userEmail) {
+                                              @RequestAttribute("userEmail") String userEmail) {
         return new ResponseEntity<>(bookService.addToShelfOrWishlist(request, userEmail, false), HttpStatus.CREATED);
     }
 }
