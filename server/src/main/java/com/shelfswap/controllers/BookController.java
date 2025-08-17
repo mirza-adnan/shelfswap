@@ -21,6 +21,6 @@ public class BookController {
     public ResponseEntity<Book> addToShelf(@Valid @RequestBody BookAddRequest request,
                                            @RequestAttribute String userEmail) {
         System.out.println(request.getId());
-        return new ResponseEntity<>(bookService.addToShelf(request, userEmail),HttpStatus.CREATED);
+        return new ResponseEntity<>(bookService.addToShelfOrWishlist(request, userEmail, true),HttpStatus.CREATED);
     }
 }

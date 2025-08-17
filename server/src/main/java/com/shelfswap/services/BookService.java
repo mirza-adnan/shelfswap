@@ -4,6 +4,5 @@ import com.shelfswap.dtos.BookAddRequest;
 import com.shelfswap.entities.Book;
 
 public interface BookService {
-    Book addToShelf(BookAddRequest request, String userEmail);
-    Book addToWishlist();
+    Book addToShelfOrWishlist(BookAddRequest request, String userEmail, Boolean toShelf);
 }

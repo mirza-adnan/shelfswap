@@ -4,9 +4,11 @@ import com.shelfswap.dtos.BookAddRequest;
 import com.shelfswap.entities.Book;
 import com.shelfswap.entities.ShelfBook;
 import com.shelfswap.entities.User;
+import com.shelfswap.entities.WishlistBook;
 import com.shelfswap.exceptions.NotFoundException;
 import com.shelfswap.repositories.BookRepository;
 import com.shelfswap.repositories.ShelfBookRepository;
+import com.shelfswap.repositories.WishlistRepository;
 import com.shelfswap.services.BookService;
 import com.shelfswap.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,29 +22,37 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final UserService userService;
     private final ShelfBookRepository shelfBookRepository;
+    private final WishlistRepository wishlistRepository;
 
     @Override
-    public Book addToShelf(BookAddRequest request, String userEmail) {
+    public Book addToShelfOrWishlist(BookAddRequest request, String userEmail, Boolean toShelf) {
         Book book;
         if (!isBookInDb(request.getId())) {
             book = addBookToDb(request);
+            log.info("New book added to DB with title: {}", book.getTitle());
         } else {
             book = getBookById(request.getId());
         }
         User user = userService.getUserByEmail(userEmail);
-        ShelfBook shelfBook = ShelfBook.builder()
-                .user(user)
-                .book(book)
-                .build();
-        shelfBookRepository.save(shelfBook);
-        log.info("New book added with title: {}", book.getTitle());
+        if (toShelf) {
+            ShelfBook shelfBook = ShelfBook.builder()
+                    .user(user)
+                    .book(book)
+                    .build();
+            shelfBookRepository.save(shelfBook);
+
+            log.info("{} added to {}'s Shelf", book.getTitle(), userEmail);
+        } else {
+            WishlistBook wishlistBook = WishlistBook.builder()
+                    .user(user)
+                    .book(book)
+                    .build();
+            wishlistRepository.save(wishlistBook);
+
+            log.info("{} added to {}'s Wishlist", book.getTitle(), userEmail);
+        }
 
         return book;
-    }
-
-    @Override
-    public Book addToWishlist() {
-        return null;
     }
 
     private Book addBookToDb(BookAddRequest request) {
