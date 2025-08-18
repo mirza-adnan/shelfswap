@@ -25,7 +25,7 @@ public class WishlistBook {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "book_isbn")
+    @JoinColumn(name = "book_id")
     private Book book;
 
     @Column(nullable = false)
