@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(path = "/api/books")
 @RequiredArgsConstructor
@@ -19,13 +21,13 @@ public class BookController {
 
     @PostMapping("/shelf")
     public ResponseEntity<Book> addToShelf(@Valid @RequestBody BookAddRequest request,
-                                           @RequestAttribute("userId") String userId) {
+                                           @RequestAttribute("userId") UUID userId) {
         return new ResponseEntity<>(bookService.addToShelfOrWishlist(request, userId, true),HttpStatus.CREATED);
     }
 
     @PostMapping("/wishlist")
     public ResponseEntity<Book> addToWishlist(@Valid @RequestBody BookAddRequest request,
-                                              @RequestAttribute("userId") String userId) {
+                                              @RequestAttribute("userId") UUID userId) {
         return new ResponseEntity<>(bookService.addToShelfOrWishlist(request, userId, false), HttpStatus.CREATED);
     }
 }

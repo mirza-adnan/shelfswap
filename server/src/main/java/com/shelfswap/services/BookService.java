@@ -26,7 +26,7 @@ public class BookService {
     private final ShelfBookRepository shelfBookRepository;
     private final WishlistRepository wishlistRepository;
 
-    public Book addToShelfOrWishlist(BookAddRequest request, String userId, Boolean toShelf) {
+    public Book addToShelfOrWishlist(BookAddRequest request, UUID userId, Boolean toShelf) {
         Book book;
         if (!isBookInDb(request.getId())) {
             book = addBookToDb(request);
@@ -34,7 +34,7 @@ public class BookService {
         } else {
             book = getBookById(request.getId());
         }
-        User user = userService.getUserById(UUID.fromString(userId));
+        User user = userService.getUserById(userId);
 
         if (canBeAdded(user.getId(), book.getId(), toShelf)) {
             if (toShelf) {
