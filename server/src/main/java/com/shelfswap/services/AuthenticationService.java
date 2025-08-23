@@ -11,4 +11,5 @@ public interface AuthenticationService {
     UserDetails validateToken(String token);
     User register(RegistrationRequest request);
     AuthResponse buildAuthResponse(User user);
+    String extractPayload(String token);
 }

@@ -28,6 +28,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -65,8 +66,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public UserDetails validateToken(String token) {
-        String email = extractPayload(token);
-        return userDetailsService.loadUserByUsername(email);
+        String userId = extractPayload(token);
+        User user = userRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
+        return userDetailsService.loadUserByUsername(user.getEmail());
     }
 
     @Override
@@ -91,7 +94,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthResponse buildAuthResponse(User user) {
-        String token = generateToken(user.getEmail());
+        String token = generateToken(user.getId().toString());
         return AuthResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
@@ -102,7 +105,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
     }
 
-    private String extractPayload(String token) {
+    @Override
+    public String extractPayload(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()

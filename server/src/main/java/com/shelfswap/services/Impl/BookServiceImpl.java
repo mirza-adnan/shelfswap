@@ -29,7 +29,7 @@ public class BookServiceImpl implements BookService {
     private final WishlistRepository wishlistRepository;
 
     @Override
-    public Book addToShelfOrWishlist(BookAddRequest request, String userEmail, Boolean toShelf) {
+    public Book addToShelfOrWishlist(BookAddRequest request, String userId, Boolean toShelf) {
         Book book;
         if (!isBookInDb(request.getId())) {
             book = addBookToDb(request);
@@ -37,7 +37,7 @@ public class BookServiceImpl implements BookService {
         } else {
             book = getBookById(request.getId());
         }
-        User user = userService.getUserByEmail(userEmail);
+        User user = userService.getUserById(UUID.fromString(userId));
 
         if (canBeAdded(user.getId(), book.getId(), toShelf)) {
             if (toShelf) {
@@ -47,7 +47,7 @@ public class BookServiceImpl implements BookService {
                         .build();
                 shelfBookRepository.save(shelfBook);
 
-                log.info("{} added to {}'s Shelf", book.getTitle(), userEmail);
+                log.info("{} added to {}'s Shelf", book.getTitle(), user.getFirstName());
             } else {
                 WishlistBook wishlistBook = WishlistBook.builder()
                         .user(user)
@@ -55,7 +55,7 @@ public class BookServiceImpl implements BookService {
                         .build();
                 wishlistRepository.save(wishlistBook);
 
-                log.info("{} added to {}'s Wishlist", book.getTitle(), userEmail);
+                log.info("{} added to {}'s Wishlist", book.getTitle(), user.getFirstName());
             }
         }
 
