@@ -23,7 +23,7 @@ public class BookAddRequest {
     @NotBlank(message = "Book author's name is required")
     private String author;
 
-    private String coverKey;
+    private Integer coverId;
 
     public void setId(String id) {
         this.id = extractOLKey(id); // automatically clean it
