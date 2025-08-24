@@ -33,8 +33,6 @@ public class FeedService {
                 })
                 .toList();
 
-        System.out.println(feedData);
-
         return feedData;
     }
 }
