@@ -1,6 +1,7 @@
 package com.shelfswap.services;
 
 import com.shelfswap.dtos.BookAddRequest;
+import com.shelfswap.dtos.BookDTO;
 import com.shelfswap.entities.Book;
 import com.shelfswap.entities.ShelfBook;
 import com.shelfswap.entities.User;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,6 +27,10 @@ public class BookService {
     private final UserService userService;
     private final ShelfBookRepository shelfBookRepository;
     private final WishlistRepository wishlistRepository;
+
+    public List<Book> getShelfBooksByUserId(UUID userId) {
+        return shelfBookRepository.findShelfBooksByUserId(userId);
+    }
 
     public Book addToShelfOrWishlist(BookAddRequest request, UUID userId, Boolean toShelf) {
         Book book;
@@ -64,7 +70,7 @@ public class BookService {
                 .id(request.getId())
                 .title(request.getTitle())
                 .author(request.getAuthor())
-                .coverUrl(String.format("https://covers.openlibrary.org/b/olid/%s-M.jpg", request.getCoverKey()))
+                .coverUrl(String.format("https://covers.openlibrary.org/b/id/%d-M.jpg", request.getCoverId()))
                 .build();
         return bookRepository.save(book);
     }

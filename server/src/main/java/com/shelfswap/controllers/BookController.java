@@ -1,7 +1,9 @@
 package com.shelfswap.controllers;
 
 import com.shelfswap.dtos.BookAddRequest;
+import com.shelfswap.dtos.BookDTO;
 import com.shelfswap.entities.Book;
+import com.shelfswap.repositories.ShelfBookRepository;
 import com.shelfswap.services.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -18,6 +21,12 @@ import java.util.UUID;
 @Slf4j
 public class BookController {
     private final BookService bookService;
+    private final ShelfBookRepository shelfBookRepository;
+
+    @GetMapping("/shelf")
+    public ResponseEntity<List<Book>> getShelfBooksByUserId(@RequestAttribute("userId") UUID userId) {
+        return new ResponseEntity<>(bookService.getShelfBooksByUserId(userId), HttpStatus.OK);
+    }
 
     @PostMapping("/shelf")
     public ResponseEntity<Book> addToShelf(@Valid @RequestBody BookAddRequest request,
