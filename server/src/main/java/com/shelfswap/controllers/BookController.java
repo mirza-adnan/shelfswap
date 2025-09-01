@@ -23,9 +23,14 @@ public class BookController {
     private final BookService bookService;
     private final ShelfBookRepository shelfBookRepository;
 
-    @GetMapping("/shelf")
-    public ResponseEntity<List<Book>> getShelfBooksByUserId(@RequestAttribute("userId") UUID userId) {
+    @GetMapping("/shelf/{userId}")
+    public ResponseEntity<List<Book>> getShelfBooksByUserId(@PathVariable UUID userId) {
         return new ResponseEntity<>(bookService.getShelfBooksByUserId(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/wishlist/{userId}")
+    public ResponseEntity<List<Book>> getWishlistBooksByUserId(@PathVariable UUID userId) {
+        return new ResponseEntity<>(bookService.getWishlistBooksByUserId(userId), HttpStatus.OK);
     }
 
     @PostMapping("/shelf")
@@ -38,5 +43,21 @@ public class BookController {
     public ResponseEntity<Book> addToWishlist(@Valid @RequestBody BookAddRequest request,
                                               @RequestAttribute("userId") UUID userId) {
         return new ResponseEntity<>(bookService.addToShelfOrWishlist(request, userId, false), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/shelf/{bookId}")
+    public ResponseEntity<Void> removeFromShelf(@PathVariable String bookId,
+                                                @RequestAttribute("userId") UUID userId) {
+        bookService.removeFromShelfOrWishlist(bookId, userId, true);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/wishlist/{bookId}")
+    public ResponseEntity<Void> removeFromWishlist(@PathVariable String bookId,
+                                                   @RequestAttribute("userId") UUID userId) {
+        System.out.println(bookId);
+        System.out.println(userId);
+        bookService.removeFromShelfOrWishlist(bookId, userId, false);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

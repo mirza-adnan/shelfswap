@@ -15,6 +15,7 @@ import com.shelfswap.repositories.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,6 +33,11 @@ public class BookService {
         return shelfBookRepository.findShelfBooksByUserId(userId);
     }
 
+    public List<Book> getWishlistBooksByUserId(UUID userId) {
+        return wishlistRepository.findWishlistBookByUserId(userId);
+    }
+
+    @Transactional
     public Book addToShelfOrWishlist(BookAddRequest request, UUID userId, Boolean toShelf) {
         Book book;
         if (!isBookInDb(request.getId())) {
@@ -63,6 +69,27 @@ public class BookService {
         }
 
         return book;
+    }
+
+    @Transactional
+    public void removeFromShelfOrWishlist(String bookId, UUID userId, Boolean fromShelf) {
+        if (!isBookInDb(bookId)) {
+            throw new NotFoundException("Book not found");
+        }
+        
+        if (fromShelf) {
+            if (!shelfBookRepository.existsByUserIdAndBookId(userId, bookId)) {
+                throw new NotFoundException("Book was not found in user's shelf");
+            }
+            shelfBookRepository.deleteByUserIdAndBookId(userId, bookId);
+            log.info("Book with ID {} removed from user {}'s shelf", bookId, userId);
+        } else {
+            if (!wishlistRepository.existsByUserIdAndBookId(userId, bookId)) {
+                throw new NotFoundException("Book not found in user's wishlist");
+            }
+            wishlistRepository.deleteByUserIdAndBookId(userId, bookId);
+            log.info("Book with ID {} removed from user {}'s wishlist", bookId, userId);
+        }
     }
 
     private Book addBookToDb(BookAddRequest request) {
