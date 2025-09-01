@@ -29,4 +29,10 @@ public class UserService {
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("No account with email:" + email));
     }
+    
+    public boolean hasMutualBooks(UUID user1Id, UUID user2Id) {
+        return userRepository.findMutualUsers(user1Id, null)
+                .stream()
+                .anyMatch(userDTO -> userDTO.getId().equals(user2Id));
+    }
 }
