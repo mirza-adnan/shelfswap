@@ -33,4 +33,13 @@ public interface BookRepository extends JpaRepository<Book, String> {
         AND s.user.id = :myId
     """)
     List<BookDTO> findMatchedBooksIOwn(@Param("myId") UUID myId, @Param("theirId") UUID theirId);
+
+    @Query("""
+        SELECT DISTINCT b
+        FROM Book b
+        JOIN ShelfBook sb ON sb.book.id = b.id
+        WHERE LOWER(b.title) LIKE LOWER(CONCAT('%', :title, '%'))
+        ORDER BY b.title
+        """)
+    List<Book> findBooksByTitleContaining(@Param("title") String title);
 }

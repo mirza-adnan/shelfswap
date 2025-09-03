@@ -3,6 +3,7 @@ package com.shelfswap.repositories;
 import com.shelfswap.dtos.BookDTO;
 import com.shelfswap.entities.Book;
 import com.shelfswap.entities.ShelfBook;
+import com.shelfswap.entities.User;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +25,13 @@ public interface ShelfBookRepository extends JpaRepository<ShelfBook, UUID> {
     List<Book> findShelfBooksByUserId(@Param("userId") UUID userId);
 
     void deleteByUserIdAndBookId(UUID userId, String bookId);
+
+    @Query("""
+        SELECT DISTINCT sb.user
+        FROM ShelfBook sb
+        WHERE sb.book.id = :bookId
+        AND sb.user.id != :excludeUserId
+        ORDER BY sb.user.createdAt DESC
+        """)
+    List<User> findUsersByBookIdExcluding(@Param("bookId") String bookId, @Param("excludeUserId") UUID excludeUserId);
 }

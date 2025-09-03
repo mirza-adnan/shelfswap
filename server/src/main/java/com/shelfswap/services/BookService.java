@@ -2,6 +2,8 @@ package com.shelfswap.services;
 
 import com.shelfswap.dtos.BookAddRequest;
 import com.shelfswap.dtos.BookDTO;
+import com.shelfswap.dtos.UserDTO;
+import com.shelfswap.mappers.UserMapper;
 import com.shelfswap.entities.Book;
 import com.shelfswap.entities.ShelfBook;
 import com.shelfswap.entities.User;
@@ -28,6 +30,7 @@ public class BookService {
     private final UserService userService;
     private final ShelfBookRepository shelfBookRepository;
     private final WishlistRepository wishlistRepository;
+    private final UserMapper userMapper;
 
     public List<Book> getShelfBooksByUserId(UUID userId) {
         return shelfBookRepository.findShelfBooksByUserId(userId);
@@ -127,5 +130,24 @@ public class BookService {
 
     public Book getBookById(String id) {
         return bookRepository.findById(id).orElseThrow(() -> new NotFoundException("No book with given ID"));
+    }
+
+    public List<Book> searchBooksByTitle(String title) {
+        if (title == null || title.trim().isEmpty()) {
+            return List.of();
+        }
+        return bookRepository.findBooksByTitleContaining(title.trim());
+    }
+
+    public List<UserDTO> getUsersWhoHaveBook(String bookId, UUID currentUserId) {
+        if (!isBookInDb(bookId)) {
+            throw new NotFoundException("Book not found");
+        }
+        
+        List<User> users = shelfBookRepository.findUsersByBookIdExcluding(bookId, currentUserId);
+        return users.stream()
+                .limit(20)
+                .map(userMapper::toDTO)
+                .toList();
     }
 }

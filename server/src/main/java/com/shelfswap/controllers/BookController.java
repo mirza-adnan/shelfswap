@@ -2,7 +2,9 @@ package com.shelfswap.controllers;
 
 import com.shelfswap.dtos.BookAddRequest;
 import com.shelfswap.dtos.BookDTO;
+import com.shelfswap.dtos.UserDTO;
 import com.shelfswap.entities.Book;
+import com.shelfswap.repositories.BookRepository;
 import com.shelfswap.repositories.ShelfBookRepository;
 import com.shelfswap.services.BookService;
 import jakarta.validation.Valid;
@@ -22,6 +24,7 @@ import java.util.UUID;
 public class BookController {
     private final BookService bookService;
     private final ShelfBookRepository shelfBookRepository;
+    private final BookRepository bookRepository;
 
     @GetMapping("/shelf/{userId}")
     public ResponseEntity<List<Book>> getShelfBooksByUserId(@PathVariable UUID userId) {
@@ -59,5 +62,31 @@ public class BookController {
         System.out.println(userId);
         bookService.removeFromShelfOrWishlist(bookId, userId, false);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Book>> searchBooks(@RequestParam String q) {
+        List<Book> books = bookService.searchBooksByTitle(q);
+        return new ResponseEntity<>(books, HttpStatus.OK);
+    }
+
+    @GetMapping("/{bookId}")
+    public ResponseEntity<Book> getBookById(@PathVariable String bookId) {
+        Book book = bookService.getBookById(bookId);
+        return new ResponseEntity<>(book, HttpStatus.OK);
+    }
+
+    @GetMapping("/{bookId}/users")
+    public ResponseEntity<List<UserDTO>> getUsersWhoHaveBook(@PathVariable String bookId,
+                                                             @RequestAttribute("userId") UUID currentUserId) {
+        List<UserDTO> users = bookService.getUsersWhoHaveBook(bookId, currentUserId);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/matched/{userId}")
+    public ResponseEntity<List<BookDTO>> getMatchedBooks(@PathVariable UUID userId,
+                                                         @RequestAttribute("userId") UUID currentUserId) {
+        List<BookDTO> matchedBooks = bookRepository.findMatchedBooksTheyOwn(currentUserId, userId);
+        return new ResponseEntity<>(matchedBooks, HttpStatus.OK);
     }
 }
