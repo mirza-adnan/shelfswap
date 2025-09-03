@@ -1,0 +1,278 @@
+DUMMY USERS AND BOOKS FOR SHELFSWAP APP
+
+USER 1: Tanvir Mahmud Hossain
+Email: tanvir@shelfswap.com
+Password: password123
+SHELF:
+- To Kill a Mockingbird by Harper Lee
+- The Great Gatsby by F. Scott Fitzgerald
+- Pride and Prejudice by Jane Austen
+- The Catcher in the Rye by J.D. Salinger
+- 1984 by George Orwell
+
+WISHLIST:
+- The Handmaid's Tale by Margaret Atwood
+- Beloved by Toni Morrison
+- The Lord of the Rings by J.R.R. Tolkien
+- Harry Potter and the Sorcerer's Stone by J.K. Rowling
+
+---
+
+USER 2: Masroor Morshed
+Email: masroor@shelfswap.com
+Password: password123
+SHELF:
+- The Lord of the Rings by J.R.R. Tolkien
+- Harry Potter and the Sorcerer's Stone by J.K. Rowling
+- Dune by Frank Herbert
+- The Hobbit by J.R.R. Tolkien
+- Fahrenheit 451 by Ray Bradbury
+
+WISHLIST:
+- The Great Gatsby by F. Scott Fitzgerald
+- To Kill a Mockingbird by Harper Lee
+- Animal Farm by George Orwell
+- Brave New World by Aldous Huxley
+
+---
+
+USER 3: Sheikh Arafat
+Email: arafat@email.com
+Password: password123
+SHELF:
+- The Handmaid's Tale by Margaret Atwood
+- Beloved by Toni Morrison
+- Little Women by Louisa May Alcott
+- Jane Eyre by Charlotte Brontë
+- The Color Purple by Alice Walker
+
+WISHLIST:
+- Pride and Prejudice by Jane Austen
+- Wuthering Heights by Emily Brontë
+- The Bell Jar by Sylvia Plath
+- Gone with the Wind by Margaret Mitchell
+
+---
+
+USER 4: Michael Chen
+Email: michael.chen@email.com
+Password: password123
+SHELF:
+- 1984 by George Orwell
+- Animal Farm by George Orwell
+- Brave New World by Aldous Huxley
+- Slaughterhouse-Five by Kurt Vonnegut
+- Catch-22 by Joseph Heller
+
+WISHLIST:
+- The Catcher in the Rye by J.D. Salinger
+- Lord of the Flies by William Golding
+- Of Mice and Men by John Steinbeck
+- The Grapes of Wrath by John Steinbeck
+
+---
+
+USER 5: Lisa Park
+Email: lisa.park@email.com
+Password: password123
+SHELF:
+- Harry Potter and the Chamber of Secrets by J.K. Rowling
+- Harry Potter and the Prisoner of Azkaban by J.K. Rowling
+- The Chronicles of Narnia by C.S. Lewis
+- A Wrinkle in Time by Madeleine L'Engle
+- The Golden Compass by Philip Pullman
+
+WISHLIST:
+- The Hobbit by J.R.R. Tolkien
+- Dune by Frank Herbert
+- The Hunger Games by Suzanne Collins
+- Divergent by Veronica Roth
+
+---
+
+USER 6: David Wilson
+Email: david.wilson@email.com
+Password: password123
+SHELF:
+- The Sun Also Rises by Ernest Hemingway
+- For Whom the Bell Tolls by Ernest Hemingway
+- On the Road by Jack Kerouac
+- The Old Man and the Sea by Ernest Hemingway
+- A Farewell to Arms by Ernest Hemingway
+
+WISHLIST:
+- The Beat Generation by Jack Kerouac
+- Fear and Loathing in Las Vegas by Hunter S. Thompson
+- Zen and the Art of Motorcycle Maintenance by Robert M. Pirsig
+- Slaughterhouse-Five by Kurt Vonnegut
+
+---
+
+USER 7: Rachel Green
+Email: rachel.green@email.com
+Password: password123
+SHELF:
+- The Fault in Our Stars by John Green
+- Looking for Alaska by John Green
+- The Perks of Being a Wallflower by Stephen Chbosky
+- Thirteen Reasons Why by Jay Asher
+- Eleanor & Park by Rainbow Rowell
+
+WISHLIST:
+- Me Before You by Jojo Moyes
+- The Time Traveler's Wife by Audrey Niffenegger
+- The Notebook by Nicholas Sparks
+- One Day by David Nicholls
+
+---
+
+USER 8: Alex Martinez
+Email: alex.martinez@email.com
+Password: password123
+SHELF:
+- The Da Vinci Code by Dan Brown
+- Angels & Demons by Dan Brown
+- The Girl with the Dragon Tattoo by Stieg Larsson
+- Gone Girl by Gillian Flynn
+- The Silence of the Lambs by Thomas Harris
+
+WISHLIST:
+- The Shining by Stephen King
+- It by Stephen King
+- The Stand by Stephen King
+- Misery by Stephen King
+
+---
+
+USER 9: Amanda Davis
+Email: amanda.davis@email.com
+Password: password123
+SHELF:
+- The Kite Runner by Khaled Hosseini
+- A Thousand Splendid Suns by Khaled Hosseini
+- The Book Thief by Markus Zusak
+- Life of Pi by Yann Martel
+- The Curious Incident of the Dog in the Night-Time by Mark Haddon
+
+WISHLIST:
+- The Alchemist by Paulo Coelho
+- Eat, Pray, Love by Elizabeth Gilbert
+- Wild by Cheryl Strayed
+- Educated by Tara Westover
+
+---
+
+USER 10: Kevin Brown
+Email: kevin.brown@email.com
+Password: password123
+SHELF:
+- The Shining by Stephen King
+- It by Stephen King
+- The Stand by Stephen King
+- Pet Sematary by Stephen King
+- Carrie by Stephen King
+
+WISHLIST:
+- The Da Vinci Code by Dan Brown
+- The Girl with the Dragon Tattoo by Stieg Larsson
+- Gone Girl by Gillian Flynn
+- Big Little Lies by Liane Moriarty
+
+---
+
+USER 11: Jennifer Lee
+Email: jennifer.lee@email.com
+Password: password123
+SHELF:
+- Outlander by Diana Gabaldon
+- Me Before You by Jojo Moyes
+- The Time Traveler's Wife by Audrey Niffenegger
+- The Notebook by Nicholas Sparks
+- Dear John by Nicholas Sparks
+
+WISHLIST:
+- The Fault in Our Stars by John Green
+- Eleanor & Park by Rainbow Rowell
+- The Perks of Being a Wallflower by Stephen Chbosky
+- One Day by David Nicholls
+
+---
+
+USER 12: Thomas Garcia
+Email: thomas.garcia@email.com
+Password: password123
+SHELF:
+- The Hunger Games by Suzanne Collins
+- Catching Fire by Suzanne Collins
+- Mockingjay by Suzanne Collins
+- Divergent by Veronica Roth
+- Insurgent by Veronica Roth
+
+WISHLIST:
+- The Maze Runner by James Dashner
+- Ready Player One by Ernest Cline
+- The Giver by Lois Lowry
+- Ender's Game by Orson Scott Card
+
+---
+
+USER 13: Michelle White
+Email: michelle.white@email.com
+Password: password123
+SHELF:
+- Where the Crawdads Sing by Delia Owens
+- The Seven Husbands of Evelyn Hugo by Taylor Jenkins Reid
+- Circe by Madeline Miller
+- The Song of Achilles by Madeline Miller
+- The Invisible Bridge by Julie Orringer
+
+WISHLIST:
+- Normal People by Sally Rooney
+- Such a Fun Age by Kiley Reid
+- The Vanishing Half by Brit Bennett
+- Klara and the Sun by Kazuo Ishiguro
+
+---
+
+USER 14: Christopher Taylor
+Email: christopher.taylor@email.com
+Password: password123
+SHELF:
+- The Martian by Andy Weir
+- Ready Player One by Ernest Cline
+- Ender's Game by Orson Scott Card
+- Foundation by Isaac Asimov
+- Neuromancer by William Gibson
+
+WISHLIST:
+- Dune by Frank Herbert
+- The Left Hand of Darkness by Ursula K. Le Guin
+- Hyperion by Dan Simmons
+- The Time Machine by H.G. Wells
+
+---
+
+USER 15: Stephanie Anderson
+Email: stephanie.anderson@email.com
+Password: password123
+SHELF:
+- Big Little Lies by Liane Moriarty
+- The Girl on the Train by Paula Hawkins
+- Sharp Objects by Gillian Flynn
+- The Woman in the Window by A.J. Finn
+- In the Woods by Tana French
+
+WISHLIST:
+- The Silent Patient by Alex Michaelides
+- The Thursday Murder Club by Richard Osman
+- The Maid by Nita Prose
+- The Guest List by Lucy Foley
+
+---
+
+NOTES:
+- All users have the same password: password123
+- Books are intentionally overlapping to create matching opportunities for the feed
+- Mix of classic literature, contemporary fiction, young adult, mystery/thriller, sci-fi, and romance
+- Each user has 4-5 books on shelf and 4 books in wishlist
+- Popular English books that are likely to have cover images available

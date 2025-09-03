@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { ConversationDTO, MessageDTO } from "@/lib/type";
 import { messagingApi } from "@/lib/messaging-api";
 import { useAuth } from "@/contexts/AuthContext";
+import { useWebSocket } from "@/hooks/useWebSocket";
 
 interface MessagingModalProps {
   isOpen: boolean;
@@ -26,10 +27,12 @@ const MessagingModal: React.FC<MessagingModalProps> = ({
   initialConversation,
 }) => {
   const { user } = useAuth();
+  const { isConnected, isReady, subscribe, unsubscribe } = useWebSocket();
   const [conversations, setConversations] = useState<ConversationDTO[]>([]);
   const [selectedConversation, setSelectedConversation] =
     useState<ConversationDTO | null>(null);
   const [messages, setMessages] = useState<MessageDTO[]>([]);
+  const messageIds = useState(() => new Set<string>())[0];
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [view, setView] = useState<"list" | "chat">("list");
@@ -44,6 +47,44 @@ const MessagingModal: React.FC<MessagingModalProps> = ({
       }
     }
   }, [isOpen, initialConversation]);
+
+  // WebSocket subscription for real-time messages
+  useEffect(() => {
+    if (isReady && user?.id) {
+      subscribe(user.id, (newMessage: MessageDTO) => {
+          // Update messages if we're viewing the conversation this message belongs to
+          if (selectedConversation?.id === newMessage.conversationId) {
+            setMessages(prev => {
+              // Check if message already exists using the Set for better performance
+              if (messageIds.has(newMessage.id)) return prev;
+              messageIds.add(newMessage.id);
+              return [...prev, newMessage];
+            });
+          }
+          
+          // Update conversations list to reflect new message
+          setConversations(prev => 
+            prev.map(conv => {
+              if (conv.id === newMessage.conversationId) {
+                return {
+                  ...conv,
+                  lastMessage: newMessage.content,
+                  lastMessageAt: newMessage.sentAt,
+                  unreadMessageCount: selectedConversation?.id === newMessage.conversationId 
+                    ? conv.unreadMessageCount 
+                    : conv.unreadMessageCount + 1
+                };
+              }
+              return conv;
+            })
+          );
+        });
+
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [isReady, user?.id, selectedConversation?.id, subscribe, unsubscribe]);
 
   const loadData = async () => {
     setLoading(true);
@@ -64,7 +105,11 @@ const MessagingModal: React.FC<MessagingModalProps> = ({
       const messagesData = await messagingApi.getConversationMessages(
         conversation.id
       );
-      setMessages(messagesData.reverse()); // Reverse to show oldest first in UI
+      const reversedMessages = messagesData.reverse(); // Reverse to show oldest first in UI
+      setMessages(reversedMessages);
+      // Update messageIds set
+      messageIds.clear();
+      reversedMessages.forEach(msg => messageIds.add(msg.id));
       await messagingApi.markMessagesAsRead(conversation.id);
     } catch (error) {
       console.error("Failed to load messages:", error);
@@ -75,11 +120,11 @@ const MessagingModal: React.FC<MessagingModalProps> = ({
     if (!newMessage.trim() || !selectedConversation) return;
 
     try {
-      const message = await messagingApi.sendMessage(selectedConversation.id, {
+      await messagingApi.sendMessage(selectedConversation.id, {
         content: newMessage.trim(),
       });
-      setMessages((prev) => [...prev, message]);
       setNewMessage("");
+      // Message will be added via WebSocket, so we don't add it here
     } catch (error) {
       console.error("Failed to send message:", error);
     }
@@ -89,6 +134,7 @@ const MessagingModal: React.FC<MessagingModalProps> = ({
     setView("list");
     setSelectedConversation(null);
     setMessages([]);
+    messageIds.clear(); // Clear the message IDs set
   };
 
   const formatTime = (dateString: string) => {

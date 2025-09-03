@@ -188,10 +188,11 @@ const Profile: React.FC = () => {
                   </span>
                 </CardTitle>
 
-                <div className="flex space-x-4 mt-4 text-sm">
+                <div className="flex gap-x-2 mt-4 text-sm">
                   <span className="text-muted-foreground">
                     <strong className="text-foreground">{shelf.length}</strong>{" "}
-                    books on Shelf
+                    books on Shelf{" "}
+                    <span className="pl-2 font-bold">&middot;</span>
                   </span>
                   <span className="text-muted-foreground">
                     <strong className="text-foreground">

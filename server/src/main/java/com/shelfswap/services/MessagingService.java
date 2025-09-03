@@ -11,6 +11,7 @@ import com.shelfswap.repositories.ConversationRepository;
 import com.shelfswap.repositories.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class MessagingService {
     private final MessageRepository messageRepository;
     private final UserService userService;
     private final UserMapper userMapper;
+    private final SimpMessagingTemplate messagingTemplate;
     
     @Transactional
     public ConversationDTO startConversation(UUID initiatorId, UUID recipientId, String initialMessage) {
@@ -123,7 +125,7 @@ public class MessagingService {
         
         message = messageRepository.save(message);
         
-        return MessageDTO.builder()
+        MessageDTO messageDTO = MessageDTO.builder()
             .id(message.getId())
             .conversationId(conversationId)
             .sender(userMapper.toDTO(sender))
@@ -131,6 +133,16 @@ public class MessagingService {
             .sentAt(message.getSentAt())
             .isRead(message.isRead())
             .build();
+        
+        // Broadcast to both users in the conversation
+        UUID recipientId = conversation.getInitiator().getId().equals(senderId) 
+            ? conversation.getRecipient().getId() 
+            : conversation.getInitiator().getId();
+            
+        messagingTemplate.convertAndSend("/queue/messages/" + senderId, messageDTO);
+        messagingTemplate.convertAndSend("/queue/messages/" + recipientId, messageDTO);
+        
+        return messageDTO;
     }
     
     public List<ConversationDTO> getUserConversations(UUID userId) {

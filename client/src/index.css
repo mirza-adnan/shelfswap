@@ -6,6 +6,12 @@
 All colors MUST be HSL.
 */
 
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 @layer base {
   :root {
     /* ShelfSwap Dark Color Palette */

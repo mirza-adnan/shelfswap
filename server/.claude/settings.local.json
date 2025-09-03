@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(D:\\Workspace\\Web\\shelfswap/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap\\book-exchange-loop/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap\\book-exchange-loop/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap\\book-exchange-loop/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap\\book-exchange-loop\\src\\components/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap\\book-exchange-loop/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap\\book-exchange-loop\\src\\lib/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap\\book-exchange-loop\\src\\contexts/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap\\book-exchange-loop\\src\\pages/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap\\book-exchange-loop\\src\\contexts/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap\\book-exchange-loop/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap\\book-exchange-loop/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap\\client/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap\\client/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap\\client/**)",
+      "Read(D:\\Workspace\\Web\\shelfswap\\client\\src/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

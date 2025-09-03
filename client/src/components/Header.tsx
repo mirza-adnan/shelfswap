@@ -45,7 +45,6 @@ const Header: React.FC = () => {
           to={user ? "/feed" : "/"}
           className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
         >
-          <BookOpen className="h-8 w-8 text-primary-foreground" />
           <span className="text-2xl font-bold text-primary-foreground font-manrope">
             shelfswap
           </span>
