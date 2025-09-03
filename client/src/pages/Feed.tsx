@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeftRight, RefreshCw, Book } from "lucide-react";
+import { ArrowLeftRight, RefreshCw, Book, RotateCcw } from "lucide-react";
 import axios from "axios";
 import MessageButton from "@/components/MessageButton";
 import { UserDTO } from "@/lib/type";
@@ -191,6 +191,11 @@ const Feed: React.FC = () => {
                         </div>
                       ))}
                     </div>
+                  </div>
+
+                  {/* Exchange Icon */}
+                  <div className="flex justify-center">
+                    <ArrowLeftRight className="h-8 w-8 text-accent rotate-90" />
                   </div>
 
                   {/* Books you have that they want */}
