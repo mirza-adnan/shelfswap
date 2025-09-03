@@ -82,7 +82,6 @@ const MessageButton: React.FC<MessageButtonProps> = ({
         {loading ? "Loading..." : "Message"}
       </Button>
 
-      {/* Start Conversation Modal */}
       <StartConversationModal
         isOpen={isStartConversationModalOpen}
         onClose={() => setIsStartConversationModalOpen(false)}
@@ -90,7 +89,6 @@ const MessageButton: React.FC<MessageButtonProps> = ({
         onSuccess={handleConversationSuccess}
       />
 
-      {/* Messaging Modal */}
       <MessagingModal
         isOpen={isMessagingModalOpen}
         onClose={handleMessagingModalClose}
