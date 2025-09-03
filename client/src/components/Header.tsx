@@ -112,13 +112,13 @@ const Header: React.FC = () => {
               <Button
                 variant="ghost"
                 asChild
-                className="text-primary-foreground hover:bg-secondary"
+                className="text-white hover:bg-secondary"
               >
                 <Link to="/auth">Log In</Link>
               </Button>
               <Button
                 asChild
-                className="bg-secondary-accent hover:bg-secondary-accent/90 text-secondary-accent-foreground"
+                className="bg-white text-black hover:bg-white/80"
               >
                 <Link to="/auth?mode=signup">Sign Up</Link>
               </Button>
