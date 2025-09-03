@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeftRight, RefreshCw } from "lucide-react";
+import { ArrowLeftRight, RefreshCw, Book } from "lucide-react";
 import axios from "axios";
 import MessageButton from "@/components/MessageButton";
 import { UserDTO } from "@/lib/type";
@@ -155,23 +155,31 @@ const Feed: React.FC = () => {
                 <CardContent className="space-y-6">
                   {/* Books they have that you want */}
                   <div>
-                    <h4 className="font-semibold text-foreground mb-3">
-                      They have
-                    </h4>
                     <div className="flex overflow-x-auto gap-4 pb-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
                       {match.theirBooks.map((book) => (
                         <div
                           key={book.id}
                           className="flex-shrink-0 w-64 p-3 bg-orange-50 rounded-lg flex items-center space-x-3"
                         >
-                          <img
-                            src={
-                              book.coverUrl ||
-                              "https://via.placeholder.com/60x90?text=No+Cover"
-                            }
-                            alt={book.title}
-                            className="w-12 h-16 object-cover rounded shadow-sm flex-shrink-0"
-                          />
+                          {book.coverUrl ? (
+                            <img
+                              src={book.coverUrl}
+                              alt={book.title}
+                              className="w-12 h-16 object-cover rounded shadow-sm flex-shrink-0"
+                              onError={(e) => {
+                                e.currentTarget.style.display = "none";
+                                e.currentTarget.nextElementSibling.style.display =
+                                  "flex";
+                              }}
+                            />
+                          ) : null}
+                          <div
+                            className={`w-12 h-16 bg-gray-200 rounded shadow-sm flex-shrink-0 flex items-center justify-center ${
+                              book.coverUrl ? "hidden" : "flex"
+                            }`}
+                          >
+                            <Book className="h-6 w-6 text-gray-500" />
+                          </div>
                           <div className="flex-1 min-w-0">
                             <h5 className="font-semibold text-sm text-foreground line-clamp-2 mb-1">
                               {book.title}
@@ -187,21 +195,31 @@ const Feed: React.FC = () => {
 
                   {/* Books you have that they want */}
                   <div>
-                    <h4 className="font-semibold text-foreground mb-3">For:</h4>
                     <div className="flex overflow-x-auto gap-4 pb-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
                       {match.myBooks.map((book) => (
                         <div
                           key={book.id}
                           className="flex-shrink-0 w-64 p-3 bg-blue-50 rounded-lg flex items-center space-x-3"
                         >
-                          <img
-                            src={
-                              book.coverUrl ||
-                              "https://via.placeholder.com/60x90?text=No+Cover"
-                            }
-                            alt={book.title}
-                            className="w-12 h-16 object-cover rounded shadow-sm flex-shrink-0"
-                          />
+                          {book.coverUrl ? (
+                            <img
+                              src={book.coverUrl}
+                              alt={book.title}
+                              className="w-12 h-16 object-cover rounded shadow-sm flex-shrink-0"
+                              onError={(e) => {
+                                e.currentTarget.style.display = "none";
+                                e.currentTarget.nextElementSibling.style.display =
+                                  "flex";
+                              }}
+                            />
+                          ) : null}
+                          <div
+                            className={`w-12 h-16 bg-gray-200 rounded shadow-sm flex-shrink-0 flex items-center justify-center ${
+                              book.coverUrl ? "hidden" : "flex"
+                            }`}
+                          >
+                            <Book className="h-6 w-6 text-gray-500" />
+                          </div>
                           <div className="flex-1 min-w-0">
                             <h5 className="font-semibold text-sm text-foreground line-clamp-2 mb-1">
                               {book.title}

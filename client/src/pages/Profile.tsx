@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { User, BookPlus, Search } from "lucide-react";
+import { User, BookPlus, Search, Book } from "lucide-react";
 import BookSearchModal from "@/components/BookSearchModal";
 import MessageButton from "@/components/MessageButton";
 import axios from "axios";
@@ -260,14 +260,22 @@ const Profile: React.FC = () => {
                         className="text-center group relative"
                       >
                         <div className="relative">
-                          <img
-                            src={
-                              book.coverUrl ||
-                              "https://via.placeholder.com/128x192?text=No+Cover"
-                            }
-                            alt={book.title}
-                            className="w-full h-48 object-cover rounded-lg shadow-md mb-2"
-                          />
+                          {book.coverUrl ? (
+                            <img
+                              src={book.coverUrl}
+                              alt={book.title}
+                              className="w-full h-48 object-cover rounded-lg shadow-md mb-2"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                e.currentTarget.nextElementSibling.style.display = 'flex';
+                              }}
+                            />
+                          ) : null}
+                          <div 
+                            className={`w-full h-48 bg-gray-200 rounded-lg shadow-md mb-2 flex items-center justify-center ${book.coverUrl ? 'hidden' : 'flex'}`}
+                          >
+                            <Book className="h-16 w-16 text-gray-500" />
+                          </div>
                           {isOwnProfile && (
                             <Button
                               size="sm"
@@ -327,14 +335,22 @@ const Profile: React.FC = () => {
                         className="text-center group relative"
                       >
                         <div className="relative">
-                          <img
-                            src={
-                              book.coverUrl ||
-                              "https://via.placeholder.com/128x192?text=No+Cover"
-                            }
-                            alt={book.title}
-                            className="w-full h-48 object-cover rounded-lg shadow-md mb-2"
-                          />
+                          {book.coverUrl ? (
+                            <img
+                              src={book.coverUrl}
+                              alt={book.title}
+                              className="w-full h-48 object-cover rounded-lg shadow-md mb-2"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                e.currentTarget.nextElementSibling.style.display = 'flex';
+                              }}
+                            />
+                          ) : null}
+                          <div 
+                            className={`w-full h-48 bg-gray-200 rounded-lg shadow-md mb-2 flex items-center justify-center ${book.coverUrl ? 'hidden' : 'flex'}`}
+                          >
+                            <Book className="h-16 w-16 text-gray-500" />
+                          </div>
                           {isOwnProfile && (
                             <Button
                               size="sm"

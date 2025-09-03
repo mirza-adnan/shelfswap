@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Search, Loader2, Plus } from "lucide-react";
+import { Search, Loader2, Plus, Book } from "lucide-react";
 
 interface BookAddRequest {
   id: string;
@@ -36,6 +36,7 @@ const BookSearchModal: React.FC<BookSearchModalProps> = ({
   const [books, setBooks] = useState<BookAddRequest[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
+  const [addingBook, setAddingBook] = useState<string | null>(null);
   const { toast } = useToast();
 
   const searchBooks = async () => {
@@ -87,6 +88,15 @@ const BookSearchModal: React.FC<BookSearchModalProps> = ({
     return "https://via.placeholder.com/128x192?text=No+Cover";
   };
 
+  const handleBookSelect = async (book: BookAddRequest) => {
+    setAddingBook(book.id);
+    try {
+      await onBookSelect(book);
+    } finally {
+      setAddingBook(null);
+    }
+  };
+
   return (
     <Dialog
       open={open}
@@ -135,25 +145,41 @@ const BookSearchModal: React.FC<BookSearchModalProps> = ({
               >
                 <CardContent className="p-4">
                   <div className="flex space-x-4">
-                    <img
-                      src={getCoverUrl(book)}
-                      alt={book.title}
-                      className="w-16 h-24 object-cover rounded shadow-sm"
-                    />
+                    {book.coverId ? (
+                      <img
+                        src={getCoverUrl(book)}
+                        alt={book.title}
+                        className="w-16 h-24 object-cover rounded shadow-sm"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          e.currentTarget.nextElementSibling.style.display = 'flex';
+                        }}
+                      />
+                    ) : null}
+                    <div 
+                      className={`w-16 h-24 bg-gray-200 rounded shadow-sm flex items-center justify-center ${book.coverId ? 'hidden' : 'flex'}`}
+                    >
+                      <Book className="h-8 w-8 text-gray-500" />
+                    </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-primary-foreground mb-1 line-clamp-2">
                         {book.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground mb-2">
+                      <p className="text-sm text-primary-foreground/70 mb-2">
                         {book.author || "Unknown Author"}
                       </p>
                     </div>
                     <Button
                       size="sm"
-                      onClick={() => onBookSelect(book)}
-                      className="shrink-0 bg-secondary-accent hover:bg-secondary-accent/90 text-secondary-accent-foreground"
+                      onClick={() => handleBookSelect(book)}
+                      disabled={addingBook === book.id}
+                      className="shrink-0 bg-white hover:bg-gray-100 text-black"
                     >
-                      <Plus className="h-4 w-4 mr-1" />
+                      {addingBook === book.id ? (
+                        <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                      ) : (
+                        <Plus className="h-4 w-4 mr-1" />
+                      )}
                       Add
                     </Button>
                   </div>
