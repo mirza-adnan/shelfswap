@@ -209,7 +209,7 @@ const Auth: React.FC = () => {
                       <Input
                         id="signup-lastName"
                         type="text"
-                        placeholder="Doe"
+                        placeholder="Darksouls"
                         value={signupData.lastName}
                         onChange={(e) =>
                           setSignupData({

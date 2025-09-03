@@ -31,6 +31,13 @@ const Header: React.FC = () => {
     navigate("/");
   };
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
   return (
     <header className="bg-primary border-b border-border sticky top-0 z-50">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -46,17 +53,20 @@ const Header: React.FC = () => {
 
         {/* Search Bar - Only show when logged in */}
         {user && (
-          <div className="flex-1 max-w-md mx-8">
+          <form
+            onSubmit={handleSearch}
+            className="flex-1 max-w-md mx-8"
+          >
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search books, authors..."
+                placeholder="Search for books..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 bg-secondary border-secondary text-primary-foreground placeholder:text-muted-foreground"
               />
             </div>
-          </div>
+          </form>
         )}
 
         <div className="flex items-center space-x-3">

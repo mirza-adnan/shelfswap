@@ -10,6 +10,8 @@ import Auth from "./pages/Auth";
 import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import SearchResults from "./pages/SearchResults";
+import BookDetails from "./pages/BookDetails";
 
 const queryClient = new QueryClient();
 
@@ -71,6 +73,16 @@ const AppContent = () => {
         <Route path="/profile/:userId" element={
           <ProtectedRoute>
             <Profile />
+          </ProtectedRoute>
+        } />
+        <Route path="/search" element={
+          <ProtectedRoute>
+            <SearchResults />
+          </ProtectedRoute>
+        } />
+        <Route path="/book/:bookId" element={
+          <ProtectedRoute>
+            <BookDetails />
           </ProtectedRoute>
         } />
         <Route path="*" element={<NotFound />} />
