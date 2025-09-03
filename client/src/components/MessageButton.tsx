@@ -12,6 +12,7 @@ interface MessageButtonProps {
   className?: string;
   size?: "default" | "sm" | "lg";
   variant?: "default" | "outline" | "ghost";
+  iconOnly?: boolean;
 }
 
 const MessageButton: React.FC<MessageButtonProps> = ({
@@ -19,6 +20,7 @@ const MessageButton: React.FC<MessageButtonProps> = ({
   className = "",
   size = "default",
   variant = "default",
+  iconOnly = false,
 }) => {
   const [isStartConversationModalOpen, setIsStartConversationModalOpen] =
     useState(false);
@@ -78,8 +80,8 @@ const MessageButton: React.FC<MessageButtonProps> = ({
         size={size}
         variant={variant}
       >
-        <Send className="h-4 w-4 mr-2" />
-        {loading ? "Loading..." : "Message"}
+        <Send className={`h-4 w-4 ${iconOnly ? "" : "mr-2"}`} />
+        {!iconOnly && (loading ? "Loading..." : "Message")}
       </Button>
 
       <StartConversationModal
