@@ -124,7 +124,7 @@ const Feed: React.FC = () => {
             {matches.map((match) => (
               <Card
                 key={match.user.id}
-                className="overflow-hidden shadow-2xl"
+                className="overflow-hidden light-shadow"
               >
                 <CardHeader className="pb-4">
                   <div className="flex items-center space-x-4">

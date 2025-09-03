@@ -165,7 +165,7 @@ const Profile: React.FC = () => {
     <div className="min-h-screen bg-background p-6">
       <div className="container mx-auto max-w-4xl">
         {/* Profile Header */}
-        <Card className="mb-8">
+        <Card className="mb-8 light-shadow">
           <CardHeader>
             <div className="flex items-center space-x-6">
               <Avatar className="h-20 w-20">
@@ -227,7 +227,7 @@ const Profile: React.FC = () => {
           </TabsList>
 
           <TabsContent value="shelf">
-            <Card>
+            <Card className="light-shadow">
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="flex items-center">Shelf</CardTitle>
                 {isOwnProfile && (
@@ -237,7 +237,7 @@ const Profile: React.FC = () => {
                   </Button>
                 )}
               </CardHeader>
-              <CardContent>
+              <CardContent className="">
                 {shelf.length === 0 ? (
                   <div className="text-center py-12">
                     <User className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
@@ -266,13 +266,16 @@ const Profile: React.FC = () => {
                               alt={book.title}
                               className="w-full h-48 object-cover rounded-lg shadow-md mb-2"
                               onError={(e) => {
-                                e.currentTarget.style.display = 'none';
-                                e.currentTarget.nextElementSibling.style.display = 'flex';
+                                e.currentTarget.style.display = "none";
+                                e.currentTarget.nextElementSibling.style.display =
+                                  "flex";
                               }}
                             />
                           ) : null}
-                          <div 
-                            className={`w-full h-48 bg-gray-200 rounded-lg shadow-md mb-2 flex items-center justify-center ${book.coverUrl ? 'hidden' : 'flex'}`}
+                          <div
+                            className={`w-full h-48 bg-gray-200 rounded-lg shadow-md mb-2 flex items-center justify-center ${
+                              book.coverUrl ? "hidden" : "flex"
+                            }`}
                           >
                             <Book className="h-16 w-16 text-gray-500" />
                           </div>
@@ -302,7 +305,7 @@ const Profile: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="wishlist">
-            <Card>
+            <Card className="light-shadow">
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="flex items-center">Wishlist</CardTitle>
                 {isOwnProfile && (
@@ -341,13 +344,16 @@ const Profile: React.FC = () => {
                               alt={book.title}
                               className="w-full h-48 object-cover rounded-lg shadow-md mb-2"
                               onError={(e) => {
-                                e.currentTarget.style.display = 'none';
-                                e.currentTarget.nextElementSibling.style.display = 'flex';
+                                e.currentTarget.style.display = "none";
+                                e.currentTarget.nextElementSibling.style.display =
+                                  "flex";
                               }}
                             />
                           ) : null}
-                          <div 
-                            className={`w-full h-48 bg-gray-200 rounded-lg shadow-md mb-2 flex items-center justify-center ${book.coverUrl ? 'hidden' : 'flex'}`}
+                          <div
+                            className={`w-full h-48 bg-gray-200 rounded-lg shadow-md mb-2 flex items-center justify-center ${
+                              book.coverUrl ? "hidden" : "flex"
+                            }`}
                           >
                             <Book className="h-16 w-16 text-gray-500" />
                           </div>

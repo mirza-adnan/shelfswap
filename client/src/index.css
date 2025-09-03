@@ -110,6 +110,10 @@ All colors MUST be HSL.
   background: #333;
 }
 
+.light-shadow {
+  box-shadow: 2px 4px 6px 2px rgba(0, 0, 0, 0.25);
+}
+
 @layer base {
   * {
     @apply border-border;
